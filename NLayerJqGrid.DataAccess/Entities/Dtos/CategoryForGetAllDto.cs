@@ -1,6 +1,8 @@
-﻿namespace NLayerJqGrid.DatatAccess.Entities.Dtos
+﻿using NLayerJqGrid.Core.Utilities.Results.Abstract;
+
+namespace NLayerJqGrid.DatatAccess.Entities.Dtos
 {
-    public class CategoryForGetAllDto 
+    public class CategoryForGetAllDto :DtoGetBase
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }

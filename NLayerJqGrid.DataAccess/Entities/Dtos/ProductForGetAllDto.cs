@@ -14,6 +14,7 @@ namespace NLayerJqGrid.DatatAccess.Entities.Dtos
         public decimal SalesPrice { get; set; }
         public int CategoryId { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
         public string CategoryName { get; set; }
 
 

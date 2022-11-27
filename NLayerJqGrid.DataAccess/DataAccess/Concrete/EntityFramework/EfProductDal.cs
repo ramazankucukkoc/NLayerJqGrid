@@ -17,14 +17,14 @@ namespace NLayerJqGrid.DataAccess.Concrete.EntityFramework
             _appDbContextBase = appDbContextBase;
         }
 
-        public List<Product> FilterNameProductWithCategory(object filterName)
+        public List<Product> ProductNameFilter(string productName)
         {
-            return _appDbContextBase.Products.Where(p => p.ProdcutName.ToLower() == filterName).ToList();
+            return _appDbContextBase.Products.Include(x => x.Category).Where(p=>p.ProdcutName.Contains(productName) || p.ProdcutName.Contains(productName)).ToList();
         }
 
-        public List<Product> ProductWithCategory(Expression<Func<Product, bool>> filter = null)
+        public List<Product> ProductWithCategory(Expression<Func<Product, bool>> filter)
         {
-            return _appDbContextBase.Products.Include(x => x.Category).ToList();
+            return _appDbContextBase.Products.Include(x => x.Category).Where(filter => !filter.IsDeleted).ToList();
         }
 
         

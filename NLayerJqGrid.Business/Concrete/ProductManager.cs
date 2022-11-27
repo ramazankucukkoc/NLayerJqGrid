@@ -46,13 +46,49 @@ namespace Business.Concrete
         public IDataResult<List<ProductForGetAllDto>> GetAll()
         {
             throw new NotImplementedException();
-        }      
+
+        }
         public IDataResult<List<ProductForGetAllDto>> GetAllByNonDeleted()
         {
             var getall=_productDal.GetAll(p=>!p.IsDeleted);
             var getAllNonDeleted=ObjectMapper.Mapper.Map<List<ProductForGetAllDto>>(getall);
             return new DataResult<List<ProductForGetAllDto>>(ResultStatus.Success, getAllNonDeleted);   
         }
+
+        public IDataResult<List<ProductForGetAllDto>> GetAllFilterProductName(string productName)
+        {
+            if (!string.IsNullOrEmpty(productName))
+            {
+                var filterProductName = _productDal.ProductNameFilter(productName).Select(
+                    x => new ProductForGetAllDto
+                    {
+                        Id = x.Id,
+                        ProdcutName = x.ProdcutName,
+                        Brand = x.Brand,
+                        CategoryName = x.Category.CategoryName,
+                        Stock = x.Stock,
+                        SalesPrice = x.SalesPrice,
+                        UnitPrice = x.UnitPrice
+                    }).ToList();
+
+
+                return new DataResult<List<ProductForGetAllDto>>(ResultStatus.Success, filterProductName);
+            }
+            var products = _productDal.ProductWithCategory().Select(
+               x => new ProductForGetAllDto
+               {
+                   Id = x.Id,
+                   ProdcutName = x.ProdcutName,
+                   Brand = x.Brand,
+                   CategoryName = x.Category.CategoryName,
+                   Stock = x.Stock,
+                   SalesPrice = x.SalesPrice,
+                   UnitPrice = x.UnitPrice
+               }).ToList();
+            return new DataResult<List<ProductForGetAllDto>>(ResultStatus.Success, products);
+
+        }
+
         public IDataResult<ProductForGetAllDto> GetById(int entityId)
         {
             var getById = _productDal.Get(p => p.Id == entityId);
@@ -62,7 +98,7 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductForGetAllDto>> GetProductsWithCategory()
         {
-            var products = _productDal.ProductWithCategory(p => !p.IsDeleted).Select(
+            var products = _productDal.ProductWithCategory().Select(
                x=> new ProductForGetAllDto {
                    Id = x.Id,
                    ProdcutName = x.ProdcutName,
@@ -70,30 +106,10 @@ namespace Business.Concrete
                    CategoryName =x.Category.CategoryName,
                    Stock = x.Stock,
                    SalesPrice = x.SalesPrice,
-                   UnitPrice = x.UnitPrice,
-
+                   UnitPrice = x.UnitPrice                   
                }).ToList();                
             return new DataResult<List<ProductForGetAllDto>>(ResultStatus.Success, products);
         }
-
-        public IDataResult<List<ProductForGetAllDto>> GetProductsWithCategoryFilter(string filterName)
-        {
-            var products = _productDal.FilterNameProductWithCategory(filterName).Select(
-               x => new ProductForGetAllDto
-               {
-                   Id = x.Id,
-                   ProdcutName = x.ProdcutName,
-                   Brand = x.Brand,
-                   CategoryName = x.Category.CategoryName,
-                   Stock = x.Stock,
-                   SalesPrice = x.SalesPrice,
-                   UnitPrice = x.UnitPrice,
-
-               }).ToList();
-            return new DataResult<List<ProductForGetAllDto>>(ResultStatus.Success,products);
-
-        }
-
         public IDataResult<ProductForGetAllDto> Update(ProductForGetAllDto entity)
         {
             var product =ObjectMapper.Mapper.Map<Product>(entity);

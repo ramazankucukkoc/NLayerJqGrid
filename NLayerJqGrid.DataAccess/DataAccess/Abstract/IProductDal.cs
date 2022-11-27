@@ -9,6 +9,8 @@ namespace NLayerJqGrid.DataAccess.Abstract
     public interface IProductDal : IEntityRepository<Product>
     {
         List<Product> ProductWithCategory( Expression<Func<Product, bool>> filter = null);
-        List<Product> FilterNameProductWithCategory(object filterName);
+
+        List<Product> ProductNameFilter(string productName);
+
     }
 }

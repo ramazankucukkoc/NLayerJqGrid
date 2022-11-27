@@ -1,0 +1,198 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<div class="col-2">
+	<input type="submit" class="btn btn-success" id="search" value="Search" />
+	<input type="text" id="myInput" class="form-control" value="" placeholder="Product Name..." />
+	@*<input type="text" id="myInputs" class="form-control" value="" placeholder="Brand Name..." />*@
+@*</div>
+<div class="col-2">
+</div>
+
+<hr />
+<br />
+<hr />*@
+<div class="col-2">
+	<button class="btn btn-sm btn-primary" id="btnAdd">Kullanıcı Ekle</button>
+</div>
+
+<table class="table table-bordered table-responsive-lg" id="jqGrid"></table>
+
+<div id="jqGridPager"></div>
+
+<div id="modalPlaceHolder" aria-hidden="true">
+</div>
+@section Scripts{
+	<script>
+
+		$(document).ready(function () {
+			$("#jqGrid").jqGrid({
+				url: '/Users/GetUsers/',
+				datatype: "json",
+				mtype: 'POST',
+				colNames: ['Kullanıcılar', 'Id', 'UserName', 'Email', 'PhoneNumber','Picture'],
+				colModel: [
+					{ formatter: formatOperations, width: 100, editable: true },
+					{ name: 'id', hidden: true, key: true, width: 150 },
+					{ name: 'userName', width: 150 },
+					{ name: 'email', width: 150 },
+					{ name: 'phoneNumber', width: 150 },
+					{ name: 'picture', width: 150 }
+				],
+				viewrecords: true,
+				width: 980,
+				height: 300,
+				rowNum: 10,
+				loadonce: false,
+				caption: "Kullanıcılar Listesi",
+				multiselect: false,
+				rowList: [10, 20, 30, 40, 50],
+				pager: "#jqGridPager"
+			}).navGrid('#jqGridPager', {
+				edit: false,
+				add: false,
+				del: false,
+				search: false,
+				refresh: false,
+				closeAfterSearch: true,
+			});
+		});
+		//-------------------------------------------
+		function formatOperations(cellValue, options, rowdata, action) {
+			return " <a class='btn btn-primary btn-sm btn-update'  data-id=" + rowdata.id + " ><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pen' viewBox='0 0 16 16'><path d='m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z'/></svg></a > " + " " +
+				"<button class='btn btn-danger btn-sm btn-delete'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash3' viewBox='0 0 16 16'><path d='M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z' /></svg></button > ";
+
+		}
+
+		//----------Delete-Get işlemleri
+		$(document).on('click',
+			'.btn-delete',
+			function (event) {
+				event.preventDefault();
+				var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+				var cellValue = $('#jqGrid').jqGrid('getCell', id, 'id');
+				//const userName=tableRow.find('td:eq(1)').text();
+				console.log(cellValue);
+				Swal.fire({
+					title: 'Silmek istediğinize emin misiniz?',
+					text: 'Kullanıcı silinecektir.',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d35',
+					confirmButtonText: 'Evet, silmek istiyorum.',
+					cancelButtonText: 'Hayır, silmek istemiyorum.'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							type: 'POST',
+							datatype: 'json',
+							data: { userId: cellValue },
+							url: '/Users/Delete/',
+							success: function (data) {
+								const userForGetAllDto = jQuery.parseJSON(data);
+								if (userForGetAllDto.ResultStatus === 0) {
+									Swal.fire(
+										'Silindi!',
+										'Kullanıcı başarıyla silinmiştir.',
+										'success');
+									$('#jqGrid').trigger('reloadGrid');
+								}
+							}
+						});
+					}
+				});
+			});
+		//--------Delete finish-----------
+		//--------Add Get İşlemeleri-----
+		$(function () {
+			const url = '/Users/Add/';
+			const placeHolderDiv = $("#modalPlaceHolder");
+			$('#btnAdd').click(function () {
+				$.get(url).done(function (data) {
+					placeHolderDiv.html(data);
+					placeHolderDiv.find(".modal").modal('show');
+				});
+			});
+			//---------------Add Post işlemleri yapılacak
+			placeHolderDiv.on('click',
+				'#btn-add',
+				function (event) {
+					event.preventDefault();
+					const form = $('#form-user-add');
+					const actionUrl = form.attr('action');
+					const dataToSend = new FormData(form.get(0));
+					$.ajax({
+						url:actionUrl,
+						type:'POST',
+						data:dataToSend,
+						processData:false,
+						contentType:false, 
+					success:function (data) {
+						console.log(data);
+						const userAddAjaxModel = jQuery.parseJSON(data);
+						console.log(userAddAjaxModel);
+						const newFormBody = $('.modal-body', userAddAjaxModel.UserAddPartial);
+						placeHolderDiv.find('.modal-body').replaceWith(newFormBody);
+						placeHolderDiv.find('.modal').modal('hide');
+						jQuery("#jqGrid").trigger("reloadGrid");
+						toastr.success('Müşteri Ekleme İşlemi Başarılı Şekilde Gerçekleşti!');
+						$('#jqGrid').trigger('reloadGrid');
+					},
+					error:function(err){
+						console.log(err);
+					}
+					});
+				});
+				});
+		
+		//---------------Update Get işlemleri yapılacak
+		//$(function () {
+		//	const url = '/Products/AddOrEdit/';
+		//	const placeHolderDiv = $('#modalPlaceHolder');
+		//	$(document).on('click',
+		//		'.btn-update', function (event) {
+		//			event.preventDefault();
+		//			const id = $(this).attr('data-id');
+		//			$.get(url, { id: id }).done(function (data) {
+		//				placeHolderDiv.html(data);
+		//				placeHolderDiv.find('.modal').modal('show');
+		//			});
+		//		});
+		//	//---------------Update Post işlemleri yapılacak
+		//	placeHolderDiv.on('click',
+		//		'#btn-update',
+		//		function (event) {
+		//			event.preventDefault();
+		//			const form = $('#form-product-update');
+		//			const actionUrl = form.attr('action');
+		//			const dataToSend = form.serialize();
+		//			$.post(actionUrl, dataToSend).done(function (data) {
+		//				console.log(data);
+		//				const productAddAjaxModel = jQuery.parseJSON(data);
+		//				console.log(productAddAjaxModel);
+		//				const newFormBody = $('.modal-body', productAddAjaxModel.ProductAddPartial);
+		//				placeHolderDiv.find('.modal-body').replaceWith(newFormBody);
+		//				placeHolderDiv.find('.modal').modal('hide');
+		//				jQuery("#jqGrid").trigger("reloadGrid");
+		//				toastr.success(`${productAddAjaxModel.ProductForGetAllDto.Message}`, 'Başarılı işlem!');
+		//				$('#jqGrid').trigger('reloadGrid');
+		//			});
+		//		});
+			//------------------------------------------
+	//	});
+		//$("#search").on("click", function () {
+		//	var value = $("#myInput").val().toLowerCase();
+		//	$("#jqGrid tbody tr ").filter(function () {
+		//		$(this).toggle($(this).children("td:nth-child(3)").text().toLowerCase().indexOf(value) > -1)
+		//	});
+		//});
+		//$("#myInputs").on("keyup", function () {
+		//	var deger = $(this).val().toLowerCase();
+		//	$("#jqGrid tbody tr ").filter(function () {
+		//		$(this).toggle($(this).children("td:nth-child(4)").text().toLowerCase().indexOf(deger) > -1)
+		//	});
+		//});					
+	</script>
+    }

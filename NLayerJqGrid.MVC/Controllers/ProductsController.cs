@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC.Model;
 using NLayerJqGrid.Business.Abstract;
 using NLayerJqGrid.Core.Extensions;
+using NLayerJqGrid.Core.Utilities.Results.Concrete;
+using NLayerJqGrid.DatatAccess.Entities.Concrete;
 using NLayerJqGrid.DatatAccess.Entities.Dtos;
 using System.Text.Json;
 
@@ -18,18 +20,16 @@ namespace NLayerJqGrid.MVC.Controllers
             _productService = productService;
             _categoryService = categoryService;
         }
-
         public IActionResult Index()
         {
-            //var getall = _productService.GetProductsWithCategory();
             return View();
-        }
-        public JsonResult GetAllProducts()
+        }  
+      
+        public  JsonResult GetAllProducts(string product)
         {
-            var products = _productService.GetProductsWithCategory();
-           
-            return Json(products.Data);
-        }
+            var productss = _productService.GetAllFilterProductName(product).Data;
+            return Json(productss);
+        }  
         [HttpGet]
         public IActionResult AddOrEdit(int id)
         {
