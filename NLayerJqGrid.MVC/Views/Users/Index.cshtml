@@ -2,17 +2,6 @@
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<div class="col-2">
-	<input type="submit" class="btn btn-success" id="search" value="Search" />
-	<input type="text" id="myInput" class="form-control" value="" placeholder="Product Name..." />
-	@*<input type="text" id="myInputs" class="form-control" value="" placeholder="Brand Name..." />*@
-@*</div>
-<div class="col-2">
-</div>
-
-<hr />
-<br />
-<hr />*@
 <div class="col-2">
 	<button class="btn btn-sm btn-primary" id="btnAdd">Kullanıcı Ekle</button>
 </div>
@@ -31,14 +20,15 @@
 				url: '/Users/GetUsers/',
 				datatype: "json",
 				mtype: 'POST',
-				colNames: ['Kullanıcılar', 'Id', 'UserName', 'Email', 'PhoneNumber','Picture'],
+				colNames: ['Kullanıcılar','Resim', 'Id', 'UserName', 'Email', 'PhoneNumber','Picture'],
 				colModel: [
 					{ formatter: formatOperations, width: 100, editable: true },
+					{ formatter: imageFormat, width: 100, editable: true },
 					{ name: 'id', hidden: true, key: true, width: 150 },
 					{ name: 'userName', width: 150 },
 					{ name: 'email', width: 150 },
 					{ name: 'phoneNumber', width: 150 },
-					{ name: 'picture', width: 150 }
+					{ name: 'picture', width: 150,hidden:true }
 				],
 				viewrecords: true,
 				width: 980,
@@ -64,7 +54,12 @@
 				"<button class='btn btn-danger btn-sm btn-delete'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash3' viewBox='0 0 16 16'><path d='M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z' /></svg></button > ";
 
 		}
+		//------------------------------------------
+		function imageFormat(cellValue, options, rowdata, action){
 
+			return '<img class="my-image-table" src="/img/'+rowdata.picture+'"/>';
+			console.log(rowdata.picture);
+		}
 		//----------Delete-Get işlemleri
 		$(document).on('click',
 			'.btn-delete',
@@ -95,7 +90,7 @@
 								if (userForGetAllDto.ResultStatus === 0) {
 									Swal.fire(
 										'Silindi!',
-										'Kullanıcı başarıyla silinmiştir.',
+										`${userForGetAllDto.Message}`,
 										'success');
 									$('#jqGrid').trigger('reloadGrid');
 								}
@@ -140,48 +135,61 @@
 						toastr.success('Müşteri Ekleme İşlemi Başarılı Şekilde Gerçekleşti!');
 						$('#jqGrid').trigger('reloadGrid');
 					},
-					error:function(err){
-						console.log(err);
+					error:function(error){
+						console.log(error);
 					}
 					});
 				});
 				});
 		
 		//---------------Update Get işlemleri yapılacak
-		//$(function () {
-		//	const url = '/Products/AddOrEdit/';
-		//	const placeHolderDiv = $('#modalPlaceHolder');
-		//	$(document).on('click',
-		//		'.btn-update', function (event) {
-		//			event.preventDefault();
-		//			const id = $(this).attr('data-id');
-		//			$.get(url, { id: id }).done(function (data) {
-		//				placeHolderDiv.html(data);
-		//				placeHolderDiv.find('.modal').modal('show');
-		//			});
-		//		});
-		//	//---------------Update Post işlemleri yapılacak
-		//	placeHolderDiv.on('click',
-		//		'#btn-update',
-		//		function (event) {
-		//			event.preventDefault();
-		//			const form = $('#form-product-update');
-		//			const actionUrl = form.attr('action');
-		//			const dataToSend = form.serialize();
-		//			$.post(actionUrl, dataToSend).done(function (data) {
-		//				console.log(data);
-		//				const productAddAjaxModel = jQuery.parseJSON(data);
-		//				console.log(productAddAjaxModel);
-		//				const newFormBody = $('.modal-body', productAddAjaxModel.ProductAddPartial);
-		//				placeHolderDiv.find('.modal-body').replaceWith(newFormBody);
-		//				placeHolderDiv.find('.modal').modal('hide');
-		//				jQuery("#jqGrid").trigger("reloadGrid");
-		//				toastr.success(`${productAddAjaxModel.ProductForGetAllDto.Message}`, 'Başarılı işlem!');
-		//				$('#jqGrid').trigger('reloadGrid');
-		//			});
-		//		});
+		$(function () {
+			const url = '/Users/Update/';
+			const placeHolderDiv = $('#modalPlaceHolder');
+			$(document).on('click',
+				'.btn-update', function (event) {
+					event.preventDefault();
+					const id = $(this).attr('data-id');
+					$.get(url, { userId: id }).done(function (data) {
+						placeHolderDiv.html(data);
+						placeHolderDiv.find('.modal').modal('show');
+					}).fail(function(){
+						toastr.error("Bir hata oluştu.");
+					});
+				});
+			//---------------Update Post işlemleri yapılacak
+			placeHolderDiv.on('click',
+				'#btn-update',
+				function (event) {
+					event.preventDefault();
+					const form = $('#form-user-update');
+					const actionUrl = form.attr('action');
+					const dataToSend = new FormData(form.get(0));
+					$.ajax({
+						url: actionUrl,
+						type: 'POST',
+						data: dataToSend,
+						processData: false,
+						contentType: false,
+						success:function (data) {
+						console.log(data);
+						const userUpdateAjaxModel = jQuery.parseJSON(data);
+							console.log(userUpdateAjaxModel);
+							const newFormBody = $('.modal-body', userUpdateAjaxModel.UserUpdatePartial);
+						placeHolderDiv.find('.modal-body').replaceWith(newFormBody);
+						placeHolderDiv.find('.modal').modal('hide');
+						jQuery("#jqGrid").trigger("reloadGrid");
+							toastr.success('Güncelleme Başarılı işlem!');
+						$('#jqGrid').trigger('reloadGrid');
+						},
+						error: function (error) {
+							console.log(error);
+						}
+					});
+				});
 			//------------------------------------------
-	//	});
+		});
+		//});
 		//$("#search").on("click", function () {
 		//	var value = $("#myInput").val().toLowerCase();
 		//	$("#jqGrid tbody tr ").filter(function () {

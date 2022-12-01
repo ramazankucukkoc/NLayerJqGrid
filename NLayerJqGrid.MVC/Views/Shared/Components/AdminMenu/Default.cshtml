@@ -1,16 +1,4 @@
-﻿
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Ana Sayfa</a>
-	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
-	<div class="navbar-nav">
-		<div class="nav-item text-nowrap">
-			<a class="nav-link px-3" href="/auth/login">Sign out</a>
-		</div>
-	</div>
-</header>
+﻿@model UserWithRolesViewModel
 
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 	<div class="position-sticky pt-3 sidebar-sticky">
@@ -20,17 +8,6 @@
 					<span data-feather="shopping-cart" class="align-text-bottom"></span>
 					Ürünler
 				</a>
-
-				@* Dropdown List kullanımı...
-				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Ürünler
-				</a>
-				<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="/products/Index">Ürün Listesi</a></li>
-
-				<li><a class="dropdown-item" href="/products/ekleme">Ürün Ekleme</a></li>
-				<li><a class="dropdown-item" href="#">Something else here</a></li>
-				</ul>*@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="/Categories/index">
@@ -39,11 +16,12 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="/Users/Index/">
-					<span data-feather="shopping-cart" class="align-text-bottom" ></span>
-					Kullanıcılar
+				<a class="nav-link" href="/Users/UserLogin">
+					<span data-feather="file" class="align-text-bottom"></span>
+					Login
 				</a>
 			</li>
+
 			<li class="nav-item">
 				<a class="nav-link" href="/Customers/Index/">
 					<span data-feather="users" class="align-text-bottom"></span>
@@ -51,9 +29,9 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">
+				<a class="nav-link" href="/CustomerTransaction/Index/">
 					<span data-feather="bar-chart-2" class="align-text-bottom"></span>
-					Personeller
+					Customer Transaction
 				</a>
 			</li>
 
@@ -78,18 +56,26 @@
 					Last quarter
 				</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
+			@if (Model.Roles.Any(r=>r.Equals("Admin")))
+			{
+				<li class="nav-item">
+				<a class="nav-link" asp-controller="Role" asp-action="Index">
 					<span data-feather="file-text" class="align-text-bottom"></span>
-					Social engagement
+					Roller
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Year-end sale
+					<a class="nav-link" asp-controller="Users" asp-action="Index">
+					<span data-feather="shopping-cart" class="align-text-bottom"></span>
+					Kullanıcılar
 				</a>
 			</li>
+			}
+			
 		</ul>
+	</div>
+	<div class="sb-sidenav-footer">
+	<div class="">Giriş Yapan Kullanıcı:</div>
+	@Model.User.UserName
 	</div>
 </nav>

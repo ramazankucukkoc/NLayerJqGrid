@@ -1,0 +1,55 @@
+﻿@model UserUpdateDto
+@{
+	Layout = null;
+	ViewBag.Title = "Profil Düzenle";
+}
+    @await Html.PartialAsync("_CssPartial")
+
+<div class="row">
+	<div class="col-lg-6 offset-lg-3">
+		<div class="card mt-3">
+			<div class="card-header">
+				<h4 class="text-center"><span class="fas fa-edit"></span>Profil Düzenle</h4>
+			</div>
+			<div class="card-body">
+                <form asp-controller="Users" id="form-user-update" asp-action="ChangeDetails" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="All" class="text-danger" id="validation-summary"></div>
+                    <input type="hidden" asp-for="Id" />
+                   <div class="form-group">
+                        <label asp-for="UserName"></label>
+                        <input type="text" class="form-control" asp-for="UserName" placeholder="Lütfen, kullanıcı adı giriniz..." />
+                        <span class="text-danger" asp-validation-for="UserName"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input class="form-control" type="email" asp-for="Email" placeholder="Lütfen, e-posta adresi giriniz..."/>
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>                  
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber"></label>
+                        <input class="form-control" type="text" asp-for="PhoneNumber" placeholder="Lütfen, Telefon Numarası  giriniz..." />
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Picture"></label>
+                        <input asp-for="Picture" type="hidden" />
+                        <img src="~/img/@Model.Picture" alt="@Model.UserName" class="my-image" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PictureFile" class="form-label"></label>
+                        <input class="form-control" accept="image/*" type="file" asp-for="PictureFile" />
+                    </div>
+                                                       
+                    <div class="modal-footer form-group">
+                        <button type="submit" class="btn btn-primary btn-block"><span class="fas fa-save"></span>Kaydet</button>
+                        <a  asp-controller="Home" asp-action="Index" class="btn btn-danger btn-block"><span class="fas fa-times"></span>Iptal Et</a>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@await Html.PartialAsync("_JavascriptParial")
+
+

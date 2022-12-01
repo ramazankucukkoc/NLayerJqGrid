@@ -1,0 +1,27 @@
+﻿@model UserViewModel
+@{
+	Layout = "_Layout";
+	ViewBag.Title = "Şifre Değiştir";
+}
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Ana Sayfa</a>
+	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" 
+	data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<input class="form-control form-control-dark w-50 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
+			<div class="nav-item text-nowrap dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+				<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+				<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+			</svg> @Model.User.UserName
+				</button>
+				<ul class="dropdown-menu">
+			<li><a class="dropdown-item" asp-controller="Users" asp-action="ChangeDetails">Profil Düzenle</a></li>
+			<li><a class="dropdown-item" asp-controller="Users" asp-action="PasswordChange">Şifre Değiştir</a></li>
+					<li><a class="dropdown-item" asp-controller="Users"asp-action="Logout">Çıkış Yap</a></li>
+				</ul>
+			</div>
+
+</header>

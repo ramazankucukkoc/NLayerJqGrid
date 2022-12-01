@@ -4,8 +4,8 @@ using NLayerJqGrid.DatatAccess.Entities.Dtos;
 
 namespace NLayerJqGrid.Business.Abstract
 {
-    public interface ICategoryService
-    {
-        IDataResult<List<CategoryForGetAllDto>> GetAllNonDeleted();
-    }
+	public interface ICategoryService
+	{
+		IDataResult<List<CategoryForGetAllDto>> GetAllNonDeleted();
+	}
 }

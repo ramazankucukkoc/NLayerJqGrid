@@ -6,8 +6,8 @@ using NLayerJqGrid.DatatAccess.Entities.Concrete;
 
 namespace NLayerJqGrid.DataAccess.Concrete.EntityFramework
 {
-    public class EfCategoryDal : EfEntityRepositoryBase<Category, AppDbContextBase>, ICategoryDal
-    {
+	public class EfCategoryDal : EfEntityRepositoryBase<Category, AppDbContextBase>, ICategoryDal
+	{
 
-    }
+	}
 }

@@ -5,7 +5,7 @@ using NLayerJqGrid.DatatAccess.Entities.Concrete;
 
 namespace NLayerJqGrid.DataAccess.Abstract
 {
-    public interface ICategoryDal : IEntityRepository<Category>
-    {
-    }
+	public interface ICategoryDal : IEntityRepository<Category>
+	{
+	}
 }

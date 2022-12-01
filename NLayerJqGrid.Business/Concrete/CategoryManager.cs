@@ -9,20 +9,20 @@ using NLayerJqGrid.DatatAccess.Entities.Dtos;
 
 namespace Business.Concrete
 {
-    public class CategoryManager : ICategoryService
-    {
-        private readonly ICategoryDal _categoryDal;
+	public class CategoryManager : ICategoryService
+	{
+		private readonly ICategoryDal _categoryDal;
 
-        public CategoryManager(ICategoryDal categoryDal)
-        {
-            _categoryDal = categoryDal;
-        }
+		public CategoryManager(ICategoryDal categoryDal)
+		{
+			_categoryDal = categoryDal;
+		}
 
-        public IDataResult<List<CategoryForGetAllDto>> GetAllNonDeleted()
-        {
-            var getallNonDeleted = _categoryDal.GetAll(p => !p.IsDeleted);
-            var getall=ObjectMapper.Mapper.Map<List<CategoryForGetAllDto>>(getallNonDeleted);
-            return new DataResult<List<CategoryForGetAllDto>>(ResultStatus.Success, getall);
-        }
-    }
+		public IDataResult<List<CategoryForGetAllDto>> GetAllNonDeleted()
+		{
+			var getallNonDeleted = _categoryDal.GetAll(p => !p.IsDeleted);
+			var getall = ObjectMapper.Mapper.Map<List<CategoryForGetAllDto>>(getallNonDeleted);
+			return new DataResult<List<CategoryForGetAllDto>>(ResultStatus.Success, getall);
+		}
+	}
 }

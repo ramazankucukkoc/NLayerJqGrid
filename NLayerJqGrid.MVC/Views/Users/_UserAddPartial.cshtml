@@ -1,4 +1,4 @@
-﻿@model UserForRegisterDto
+﻿@model UserForGetAllDto
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -32,6 +32,7 @@
                         <input class="form-control" type="text" asp-for="PhoneNumber" placeholder="Lütfen, Telefon Numarası  giriniz..." />
                         <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                     </div>
+                   
                     <div class="form-group">
                         <label asp-for="PictureFile" class="form-label"></label>
                         <input class="form-control" accept="image/*" type="file" asp-for="PictureFile" />
@@ -40,7 +41,7 @@
                                                        
                     <div class="modal-footer form-group">
                         <button type="button" class="btn btn-warning btn-block" data-bs-dismiss="modal"><span class="fas fa-times"></span>Iptal Et</button>
-                        <button type="submit" id="btn-add" class="btn btn-primary  btn-block"><span class="fas fa-save"></span>Ürün Ekle</button>
+                        <button type="submit" id="btn-add" class="btn btn-primary  btn-block"><span class="fas fa-save"></span>Kullanıcı  Ekle</button>
                     </div>
                 </form>
             </div>

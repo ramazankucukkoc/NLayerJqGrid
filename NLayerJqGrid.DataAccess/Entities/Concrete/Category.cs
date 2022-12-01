@@ -5,10 +5,11 @@ using NLayerJqGrid.DatatAccess.Entities.Abstract;
 
 namespace NLayerJqGrid.DatatAccess.Entities.Concrete
 {
-    public class Category :EntityBase, IEntity
-    {
-        public string CategoryName { get; set; }
-        public ICollection<Product> Products { get; set; }
-        
-    }
+	public class Category : EntityBase, IEntity
+	{
+		public string CategoryName { get; set; }
+		public string Description { get; set; }
+		public ICollection<Product> Products { get; set; }
+
+	}
 }

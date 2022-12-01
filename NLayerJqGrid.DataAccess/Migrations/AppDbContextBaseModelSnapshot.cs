@@ -22,7 +22,7 @@ namespace NLayerJqGrid.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.OperationClaim", b =>
+            modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,6 +50,22 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "e0951ffa-f36e-463c-9498-5f99ef2d7646",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "a7c5ec4a-9865-4305-8373-086fe8e2ec01",
+                            Name = "Editor",
+                            NormalizedName = "EDITOR"
+                        });
                 });
 
             modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.RoleClaim", b =>
@@ -122,7 +138,6 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -146,6 +161,43 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f5726388-2cfd-4cdf-9b34-8b2106224c65",
+                            Email = "adminuser@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMINUSER@GMAİL.COM",
+                            NormalizedUserName = "ADMINUSER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBlzV6WlvHWwCgZHuTjrNAtU7kSkZqz5HnHUcxKj906opQjBiXH2IKVunGAWKyoCLw==",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "defaultUser.png",
+                            SecurityStamp = "b7945f50-e469-4fae-a6cc-c307f66cb46d",
+                            TwoFactorEnabled = false,
+                            UserName = "adminuser"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a8b97276-7d7a-4456-8227-01826f2cba5d",
+                            Email = "editoruser@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EDITORUSER@GMAİL.COM",
+                            NormalizedUserName = "EDITORUSER",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "defaultUser.png",
+                            SecurityStamp = "62d69529-61c9-4642-9586-06f24584d92c",
+                            TwoFactorEnabled = false,
+                            UserName = "editoruser"
+                        });
                 });
 
             modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.UserClaim", b =>
@@ -208,6 +260,18 @@ namespace NLayerJqGrid.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.UserToken", b =>
@@ -229,6 +293,209 @@ namespace NLayerJqGrid.DataAccess.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("CompanyPhone")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("varchar(13)");
+
+                    b.Property<string>("County")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DepartmanName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Manager")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("ManagerPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Istanbul",
+                            CompanyName = "Koç",
+                            CompanyPhone = "+905436251369",
+                            County = "Kartal",
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(2756),
+                            DepartmanName = "CEO",
+                            IsDeleted = false,
+                            Manager = "Ramazan K.KOÇ",
+                            ManagerPhone = "+905436251369",
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(2768),
+                            Note = "Ramazan K.KOÇ Şirketin CEO'sudur."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "Ankara",
+                            CompanyName = "Saran",
+                            CompanyPhone = "+905436251368",
+                            County = "Cumhur",
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(2774),
+                            DepartmanName = "CEO",
+                            IsDeleted = false,
+                            Manager = "Mehmet K.KOÇ",
+                            ManagerPhone = "+905436251369",
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(2775),
+                            Note = "Mehmet K.KOÇ Şirketin CEO'sudur."
+                        });
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.CompanyTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("PersonelId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CompanyTransactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyId = 1,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(9801),
+                            Description = "Şirket Satı İşlemleri",
+                            IsDeleted = false,
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(9807),
+                            Note = "Şirket için önemli satışdı.",
+                            PersonelId = 1,
+                            ProductId = 2,
+                            TotalPrice = 500,
+                            Unit = 5,
+                            UnitPrice = 100m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CompanyId = 1,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(9813),
+                            Description = "Şirket Satı İşlemleri Devam Ediyor",
+                            IsDeleted = false,
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 652, DateTimeKind.Local).AddTicks(9814),
+                            Note = "Şirket için önemli kar yüzdesi güzel satışdı.",
+                            PersonelId = 1,
+                            ProductId = 5,
+                            TotalPrice = 1500,
+                            Unit = 5,
+                            UnitPrice = 100m
+                        });
                 });
 
             modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Customer", b =>
@@ -307,13 +574,13 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             City = "Konya",
                             County = "Karatay",
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(2110),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(1505),
                             Email = "ramazankucukkoc43@gmail.com",
                             FirstName = "Ramazan",
                             IsDeleted = false,
                             LastName = "Küçükkoç",
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(2125),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(1507),
                             Note = "Not girilmedi",
                             PhoneNumber = "5436251369"
                         },
@@ -324,15 +591,254 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             City = "Ankara",
                             County = "Sincan",
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(2134),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(1512),
                             Email = "alistfn06@gmail.com",
                             FirstName = "Aliş",
                             IsDeleted = false,
                             LastName = "Tufan",
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(2134),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(1512),
                             Note = "Not girilmedi",
                             PhoneNumber = "5427123456"
+                        });
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.CustomerTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PersonelId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CustomerTransactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(7201),
+                            CustomerId = 1,
+                            Description = "Ürün Satısı Yapıldı.",
+                            IsDeleted = false,
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(7209),
+                            Note = "Ürün Satışı Gerçekleştirdik.",
+                            PersonelId = 1,
+                            ProductId = 1,
+                            TotalPrice = 100,
+                            Unit = 4,
+                            UnitPrice = 20m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(7215),
+                            CustomerId = 2,
+                            Description = "Ürün Satısı Yapıldı.",
+                            IsDeleted = false,
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(7215),
+                            Note = "Ürün Satışı Gerçekleştirdik.",
+                            PersonelId = 2,
+                            ProductId = 1,
+                            TotalPrice = 500,
+                            Unit = 10,
+                            UnitPrice = 50m
+                        });
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Departman", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DepartmanName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departmens");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(9340),
+                            DepartmanName = "Müdür",
+                            IsDeleted = false,
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(9344),
+                            Note = "Müdür Satış Elamanıdır."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(9346),
+                            DepartmanName = "Satış Temsilcisi",
+                            IsDeleted = false,
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 653, DateTimeKind.Local).AddTicks(9347),
+                            Note = "Satış Temsilcisi İşlemleri Tamamladı."
+                        });
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Personel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartmanId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("ModifiedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonelName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmanId");
+
+                    b.ToTable("Personels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(3388),
+                            DepartmanId = 1,
+                            IsDeleted = false,
+                            LastName = "Ak",
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(3393),
+                            Note = "Not girilmedi",
+                            PersonelName = "Ahmet"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedByName = "Ramazan KÜÇÜKKOÇ",
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(3397),
+                            DepartmanId = 2,
+                            IsDeleted = false,
+                            LastName = "Kara",
+                            ModifiedByName = "Ramazan KÜÇÜKKOÇ",
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(3397),
+                            Note = "Not girilmedi",
+                            PersonelName = "Mehmet"
                         });
                 });
 
@@ -355,6 +861,10 @@ namespace NLayerJqGrid.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -380,10 +890,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Id = 1,
                             CategoryName = "Cheese",
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3633),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5423),
+                            Description = "Kategori Bir",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3637),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5429),
                             Note = "Not girilmedi"
                         },
                         new
@@ -391,10 +902,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Id = 2,
                             CategoryName = "Meat",
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3639),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5431),
+                            Description = "Kategori İki",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3639),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5432),
                             Note = "Not girilmedi"
                         },
                         new
@@ -402,10 +914,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Id = 3,
                             CategoryName = "Fish",
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3640),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5433),
+                            Description = "Kategori Üç",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3641),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5434),
                             Note = "Not girilmedi"
                         },
                         new
@@ -413,10 +926,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Id = 4,
                             CategoryName = "Bread",
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3641),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5435),
+                            Description = "Kategori Dört",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(3642),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(5436),
                             Note = "Not girilmedi"
                         });
                 });
@@ -443,6 +957,10 @@ namespace NLayerJqGrid.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -485,10 +1003,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Brand = "Bosch",
                             CategoryId = 1,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6722),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9553),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6727),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9561),
                             Note = "Not girilmedi",
                             ProdcutName = "Cheddar",
                             SalesPrice = 25m,
@@ -498,13 +1017,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            Brand = "Bosch",
+                            Brand = "Arçelik",
                             CategoryId = 1,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6733),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9569),
+                            Description = "Ürün Şahane",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6733),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9570),
                             Note = "Not girilmedi",
                             ProdcutName = "Brie",
                             SalesPrice = 25m,
@@ -514,13 +1034,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            Brand = "Bosch",
+                            Brand = "Arçelik",
                             CategoryId = 1,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6737),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9572),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6737),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9573),
                             Note = "Not girilmedi",
                             ProdcutName = "Stilton",
                             SalesPrice = 25m,
@@ -530,13 +1051,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 4,
-                            Brand = "Bosch",
+                            Brand = "Arçelik",
                             CategoryId = 2,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6739),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9575),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6739),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9576),
                             Note = "Not girilmedi",
                             ProdcutName = "Cheshire",
                             SalesPrice = 35m,
@@ -546,13 +1068,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 5,
-                            Brand = "Bosch",
+                            Brand = "Ugur",
                             CategoryId = 2,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6741),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9578),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6741),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9578),
                             Note = "Not girilmedi",
                             ProdcutName = "Swiss",
                             SalesPrice = 120m,
@@ -562,13 +1085,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 6,
-                            Brand = "Bosch",
+                            Brand = "Ugur",
                             CategoryId = 2,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6742),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9581),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6743),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9582),
                             Note = "Not girilmedi",
                             ProdcutName = "Gruyere",
                             SalesPrice = 65m,
@@ -578,13 +1102,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 7,
-                            Brand = "Bosch",
+                            Brand = "Ugur",
                             CategoryId = 3,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6744),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9584),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6745),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9585),
                             Note = "Not girilmedi",
                             ProdcutName = "Colby",
                             SalesPrice = 25m,
@@ -597,10 +1122,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Brand = "Bosch",
                             CategoryId = 3,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6746),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9586),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6747),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9587),
                             Note = "Not girilmedi",
                             ProdcutName = "Mozzela",
                             SalesPrice = 43m,
@@ -613,10 +1139,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Brand = "Bosch",
                             CategoryId = 3,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6748),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9589),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6749),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9590),
                             Note = "Not girilmedi",
                             ProdcutName = "Ricotta",
                             SalesPrice = 25m,
@@ -626,13 +1153,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 10,
-                            Brand = "Bosch",
+                            Brand = "Profilo",
                             CategoryId = 4,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6750),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9591),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6751),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9592),
                             Note = "Not girilmedi",
                             ProdcutName = "Parmesan",
                             SalesPrice = 25m,
@@ -642,13 +1170,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 11,
-                            Brand = "Bosch",
+                            Brand = "Profilo",
                             CategoryId = 4,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6752),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9594),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6753),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9594),
                             Note = "Not girilmedi",
                             ProdcutName = "Ham",
                             SalesPrice = 25m,
@@ -658,13 +1187,14 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         new
                         {
                             Id = 12,
-                            Brand = "Bosch",
+                            Brand = "Profilo",
                             CategoryId = 4,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6754),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9596),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6755),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9597),
                             Note = "Not girilmedi",
                             ProdcutName = "Beef",
                             SalesPrice = 55m,
@@ -677,10 +1207,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Brand = "Bosch",
                             CategoryId = 4,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6758),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9600),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6759),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9601),
                             Note = "Not girilmedi",
                             ProdcutName = "Chicken",
                             SalesPrice = 95m,
@@ -693,10 +1224,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Brand = "Bosch",
                             CategoryId = 4,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6760),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9603),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6761),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9603),
                             Note = "Not girilmedi",
                             ProdcutName = "Turkey",
                             SalesPrice = 250m,
@@ -709,10 +1241,11 @@ namespace NLayerJqGrid.DataAccess.Migrations
                             Brand = "Bosch",
                             CategoryId = 4,
                             CreatedByName = "Ramazan KÜÇÜKKOÇ",
-                            CreatedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6762),
+                            CreatedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9605),
+                            Description = "Ürün Güzel",
                             IsDeleted = false,
                             ModifiedByName = "Ramazan KÜÇÜKKOÇ",
-                            ModifiedDate = new DateTime(2022, 11, 27, 10, 44, 2, 813, DateTimeKind.Local).AddTicks(6763),
+                            ModifiedDate = new DateTime(2022, 11, 30, 8, 35, 2, 654, DateTimeKind.Local).AddTicks(9606),
                             Note = "Not girilmedi",
                             ProdcutName = "Prosciutto",
                             SalesPrice = 325m,
@@ -723,7 +1256,7 @@ namespace NLayerJqGrid.DataAccess.Migrations
 
             modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.RoleClaim", b =>
                 {
-                    b.HasOne("NLayerJqGrid.Core.Entities.Concrete.OperationClaim", null)
+                    b.HasOne("NLayerJqGrid.Core.Entities.Concrete.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -750,7 +1283,7 @@ namespace NLayerJqGrid.DataAccess.Migrations
 
             modelBuilder.Entity("NLayerJqGrid.Core.Entities.Concrete.UserRole", b =>
                 {
-                    b.HasOne("NLayerJqGrid.Core.Entities.Concrete.OperationClaim", null)
+                    b.HasOne("NLayerJqGrid.Core.Entities.Concrete.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -772,6 +1305,71 @@ namespace NLayerJqGrid.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.CompanyTransaction", b =>
+                {
+                    b.HasOne("NLayerJqGrid.DataAccess.Entities.Concrete.Company", "Company")
+                        .WithMany("CompanyTransactions")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NLayerJqGrid.DataAccess.Entities.Concrete.Personel", "Personel")
+                        .WithMany("CompanyTransactions")
+                        .HasForeignKey("PersonelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NLayerJqGrid.DatatAccess.Entities.Concrete.Product", "Product")
+                        .WithMany("CompanyTransactions")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Personel");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.CustomerTransaction", b =>
+                {
+                    b.HasOne("NLayerJqGrid.DataAccess.Entities.Concrete.Customer", "Customer")
+                        .WithMany("CustomerTransactions")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NLayerJqGrid.DataAccess.Entities.Concrete.Personel", "Personel")
+                        .WithMany("CustomerTransactions")
+                        .HasForeignKey("PersonelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NLayerJqGrid.DatatAccess.Entities.Concrete.Product", "Product")
+                        .WithMany("CustomerTransactions")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Personel");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Personel", b =>
+                {
+                    b.HasOne("NLayerJqGrid.DataAccess.Entities.Concrete.Departman", "Departman")
+                        .WithMany("Personels")
+                        .HasForeignKey("DepartmanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Departman");
+                });
+
             modelBuilder.Entity("NLayerJqGrid.DatatAccess.Entities.Concrete.Product", b =>
                 {
                     b.HasOne("NLayerJqGrid.DatatAccess.Entities.Concrete.Category", "Category")
@@ -783,9 +1381,38 @@ namespace NLayerJqGrid.DataAccess.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Company", b =>
+                {
+                    b.Navigation("CompanyTransactions");
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Customer", b =>
+                {
+                    b.Navigation("CustomerTransactions");
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Departman", b =>
+                {
+                    b.Navigation("Personels");
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DataAccess.Entities.Concrete.Personel", b =>
+                {
+                    b.Navigation("CompanyTransactions");
+
+                    b.Navigation("CustomerTransactions");
+                });
+
             modelBuilder.Entity("NLayerJqGrid.DatatAccess.Entities.Concrete.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("NLayerJqGrid.DatatAccess.Entities.Concrete.Product", b =>
+                {
+                    b.Navigation("CompanyTransactions");
+
+                    b.Navigation("CustomerTransactions");
                 });
 #pragma warning restore 612, 618
         }

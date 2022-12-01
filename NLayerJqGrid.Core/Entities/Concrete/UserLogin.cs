@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NLayerJqGrid.Core.Entities.Concrete
 {
-    public class UserLogin:IdentityUserLogin<int>
-    {
-    }
+	public class UserLogin : IdentityUserLogin<int>
+	{
+	}
 }

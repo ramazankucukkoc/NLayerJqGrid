@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 
 namespace NLayerJqGrid.DataAccess.Abstract
 {
-    public interface IProductDal : IEntityRepository<Product>
-    {
-        List<Product> ProductWithCategory( Expression<Func<Product, bool>> filter = null);
+	public interface IProductDal : IEntityRepository<Product>
+	{
+		List<Product> ProductWithCategory(Expression<Func<Product, bool>> filter = null);
 
-        List<Product> ProductNameFilter(string productName);
+		List<Product> ProductNameFilter(string productName);
 
-    }
+	}
 }
