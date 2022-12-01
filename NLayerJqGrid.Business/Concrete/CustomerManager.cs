@@ -27,8 +27,32 @@ namespace NLayerJqGrid.Business.Concrete
 				Message = $"{entity.FirstName + " " + entity.LastName} adlı müşteri başarıyla eklenmiştir."
 			});
 		}
+        public async Task<IDataResult<int>> Count()
+        {
+            var customerCount = await _customerDal.CountAsync();
+            if (customerCount > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, customerCount);
+            }
+            else
+            {
+                return new DataResult<int>(ResultStatus.Error, "Beklenmeyen bir hata ile karşılaşıldı.", -1);
+            }
+        }
 
-		public IDataResult<CustomerForGetAllDto> Delete(int customerId)
+        public async Task<IDataResult<int>> CountByNonDeleted()
+        {
+            var customerCount = await _customerDal.CountAsync(c => !c.IsDeleted);
+            if (customerCount > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, customerCount);
+            }
+            else
+            {
+                return new DataResult<int>(ResultStatus.Error, "Beklenmeyen bir hata ile karşılaşıldı.", -1);
+            }
+        }
+        public IDataResult<CustomerForGetAllDto> Delete(int customerId)
 		{
 			var customer = _customerDal.Get(p => p.Id == customerId);
 			customer.IsDeleted = true;

@@ -1,0 +1,126 @@
+﻿@model DashboardViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Yönetim Paneli";
+}
+@*<h1 class="mt-4">Dashboard</h1>*@
+<ol class="breadcrumb mb-3 mt-2">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Admin</a></li>
+    <li class="breadcrumb-item active"><a asp-controller="Home" asp-action="Index">Yönetim Paneli</a></li>
+</ol>
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">Kategoriler(@Model.CustomersCount)</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-controller="Category" asp-action="Index">Detaylar</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body">Ürünler (@Model.ProductsCount)</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-controller="Products" asp-action="Index">Detaylar</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body">Müşteriler (@Model.CustomersCount</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link"  asp-controller="Customer" asp-action="Index">Detaylar</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">Kullanıcılar (@Model.UsersCount)</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link"  asp-controller="Users" asp-action="Index">Detaylar</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area mr-1"></i>
+                Area Chart Örneği
+            </div>
+            <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar mr-1"></i>
+                Bar Chart Örneği
+            </div>
+            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Son Paylaşılan Makaleler
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="articlesTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Kategori</th>
+                    <th>Başlık</th>
+                    <th>Küçük Resim</th>
+                    <th>Tarih</th>
+                    <th>Okunma Sayısı</th>
+                    <th>Yorum Sayısı</th>
+                    <th>Aktif Mi?</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Kategori</th>
+                    <th>Başlık</th>
+                    <th>Küçük Resim</th>
+                    <th>Tarih</th>
+                    <th>Okunma Sayısı</th>
+                    <th>Yorum Sayısı</th>
+                    <th>Aktif Mi?</th>
+                </tr>
+                </tfoot>
+                <tbody>
+              @foreach (var item in Model.)
+                    {
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                        </tr>
+                    }
+               
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>*@
+@section Scripts
+{
+    <script src="~/js/homeindex.js"  type="application/ecmascript"></script>
+}

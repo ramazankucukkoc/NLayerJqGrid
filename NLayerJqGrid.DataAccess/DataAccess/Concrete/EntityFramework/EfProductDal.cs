@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NLayerJqGrid.Core.DataAccess.EntityFramework;
 using NLayerJqGrid.DataAccess.Abstract;
 using NLayerJqGrid.DataAccess.Concrete.EntityFramework.Context;

@@ -1,7 +1,8 @@
 ﻿namespace Business.Messages.Product
 {
-	public class Product_Messages
+	public static class Product_Messages
 	{
+
 		public static readonly string CategoryLimitExceded = "Kategori sayısı 15'dir fazla yapılamaz";
 		public static string ProdcutAdded = "Ürün Eklendi";
 		public static string ProdcutDeleted = "Ürün Silindi";

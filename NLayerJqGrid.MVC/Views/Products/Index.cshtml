@@ -2,7 +2,10 @@
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<ol class="breadcrumb mb-3 mt-2">
+    <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Admin</a></li>
+    <li class="breadcrumb-item active"><a asp-controller="Products" asp-action="Index">Kategoriler</a></li>
+</ol>
 <div class="col-2">
 	<input type="submit" class="btn btn-success" id="search" value="Search" />
 	<input type="text" id="myInput" class="form-control" value="" placeholder="Product Name..." />

@@ -1,10 +1,12 @@
-using Autofac;
+ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
 using Microsoft.EntityFrameworkCore;
 using NLayerJqGrid.Core.Entities.Concrete;
 using NLayerJqGrid.DataAccess.Concrete.EntityFramework.Context;
 using NLayerJqGrid.MVC.AutoMapper.Profiles;
+using NLayerJqGrid.MVC.Helpers.Abstract;
+using NLayerJqGrid.MVC.Helpers.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +36,7 @@ builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new AutofacBusinessModule()));
-
+builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.LoginPath = new PathString("/Users/Login");

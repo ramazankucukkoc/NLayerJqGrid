@@ -8,6 +8,7 @@ using NLayerJqGrid.Core.Entities.Concrete;
 using NLayerJqGrid.Core.Extensions;
 using NLayerJqGrid.DataAccess.Entities.Dtos;
 using NLayerJqGrid.DatatAccess.Entities.Dtos;
+using NLayerJqGrid.MVC.Helpers.Abstract;
 using System.Text.Json;
 
 namespace NLayerJqGrid.MVC.Controllers
@@ -16,17 +17,15 @@ namespace NLayerJqGrid.MVC.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
+        private readonly IImageHelper _imageHelper;
 
-        public UsersController(UserManager<User> userManager,
-            SignInManager<User> signInManager, IWebHostEnvironment env, IMapper mapper)
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IImageHelper imageHelper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _env = env;
             _mapper = mapper;
-
+            _imageHelper = imageHelper;
         }
 
         [Authorize(Roles = "Admin")]
@@ -104,7 +103,11 @@ namespace NLayerJqGrid.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                userForRegisterDto.Picture = await ImageUpload(userForRegisterDto.UserName, userForRegisterDto.PictureFile);
+              var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userForRegisterDto.UserName, userForRegisterDto.PictureFile);
+                userForRegisterDto.Picture = uploadedImageDtoResult.ResultStatus == Core.Utilities.Results.Abstract.ResultStatus.Success
+                    ? uploadedImageDtoResult.Data.FullName
+                    : "userImages/defaultUser.png";
+
                 var user = _mapper.Map<User>(userForRegisterDto);
                 var result = await _userManager.CreateAsync(user, userForRegisterDto.Password);
                 if (result.Succeeded)
@@ -164,8 +167,11 @@ namespace NLayerJqGrid.MVC.Controllers
                 var oldUserPicture = oldUser.Picture;
                 if (userUpdateDto.PictureFile != null)
                 {
-                    userUpdateDto.Picture = await ImageUpload(userUpdateDto.UserName, userUpdateDto.PictureFile);
-                    if (oldUserPicture != "defaultUser.png")
+                    var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == Core.Utilities.Results.Abstract.ResultStatus.Success
+                        ? uploadedImageDtoResult.Data.FullName
+                        : "userImages/defaultUser.png"; 
+                    if (oldUserPicture != "userImages/defaultUser.png")
                     {
                         isNewPictureUploaded = true;
                     }
@@ -177,7 +183,7 @@ namespace NLayerJqGrid.MVC.Controllers
                 {
                     if (isNewPictureUploaded == true)
                     {
-                        ImageDelete(oldUserPicture);
+                        _imageHelper.DeleteImage(oldUserPicture);
                     }
                     TempData.Add("SuccessMessage", $"{updatedUser.UserName} adlı kullanıcı başarıyla güncellenmiştir.");
                     return View(userUpdateDto);
@@ -221,39 +227,27 @@ namespace NLayerJqGrid.MVC.Controllers
                         TempData.Add("SuccessMessage", "Şifreniz başarıyla değiştirilmiştir.");
                         return View();
                     }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                        return View(userPasswordChangeDto);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Lütfen, girmiş olduğunuz şu anki şifreniz kontrol ediniz.");
+                    ModelState.AddModelError("", "Lütfen, girmiş olduğunuz şu anki şifrenizi kontrol ediniz.");
                     return View(userPasswordChangeDto);
                 }
             }
             else
             {
                 return View(userPasswordChangeDto);
+
             }
-            return View();
         }
-        [Authorize(Roles = "Admin,Editor")]
-        public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
-        {
-            string wwwroot = _env.WebRootPath;
-
-            string fileExtension = Path.GetExtension(pictureFile.FileName);
-
-            DateTime dateTime = DateTime.Now;
-
-            string fileName = $"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
-
-            var path = Path.Combine($"{wwwroot}/img", fileName);
-
-            await using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await pictureFile.CopyToAsync(stream);
-            }
-            return fileName;
-        }
-
         [Authorize(Roles = "Admin")]
         public async Task<JsonResult> Delete(int userId)
         {
@@ -280,22 +274,7 @@ namespace NLayerJqGrid.MVC.Controllers
             var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
             return PartialView("_UserUpdatePartial", userUpdateDto);
         }
-        [Authorize(Roles = "Admin,Editor")]
-
-        public bool ImageDelete(string pictureName)
-        {
-            string wwwroot = _env.WebRootPath;
-
-            var fileToDelte = Path.Combine($"{wwwroot}/img", pictureName);
-
-            if (System.IO.File.Exists(fileToDelte))
-            {
-                System.IO.File.Delete(fileToDelte);
-                return true;
-            }
-            return false;
-        }
-
+        
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
@@ -307,8 +286,14 @@ namespace NLayerJqGrid.MVC.Controllers
                 var oldUserPicture = oldUser.Picture;
                 if (userUpdateDto.PictureFile != null)
                 {
-                    userUpdateDto.Picture = await ImageUpload(userUpdateDto.UserName, userUpdateDto.PictureFile);
-                    isNewPictureUploaded = true;
+                    var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == Core.Utilities.Results.Abstract.ResultStatus.Success
+                        ? uploadedImageDtoResult.Data.FullName
+                        : "userImages/defaultUser.png";
+                    if (oldUserPicture != "userImages/defaultUser.png")
+                    {
+                        isNewPictureUploaded = true;
+                    }
 
                 }
                 var updatedUser = _mapper.Map<UserUpdateDto, User>(userUpdateDto, oldUser);
@@ -317,7 +302,7 @@ namespace NLayerJqGrid.MVC.Controllers
                 {
                     if (isNewPictureUploaded == true)
                     {
-                        ImageDelete(oldUserPicture);
+                        _imageHelper.DeleteImage(oldUserPicture);
                     }
                     var userUpdateViewModelModel = JsonSerializer.Serialize(new UserUpdateAjaxModel
                     {
@@ -349,8 +334,6 @@ namespace NLayerJqGrid.MVC.Controllers
                 });
                 return Json(userUpdateErrorModelStateViewModelModel);
             }
-
-
         }
     }
 }

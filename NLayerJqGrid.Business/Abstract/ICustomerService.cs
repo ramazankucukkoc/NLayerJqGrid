@@ -10,5 +10,7 @@ namespace NLayerJqGrid.Business.Abstract
 		IDataResult<CustomerForGetAllDto> Add(CustomerForGetAllDto entity);
 		IDataResult<CustomerForGetAllDto> Update(CustomerForGetAllDto entity);
 		IDataResult<CustomerForGetAllDto> Delete(int customerId);
-	}
+        Task<IDataResult<int>> Count();
+        Task<IDataResult<int>> CountByNonDeleted();
+    }
 }

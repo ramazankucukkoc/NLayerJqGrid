@@ -19,6 +19,15 @@ namespace NLayerJqGrid.Core.DataAccess.EntityFramework
 
 		}
 
+		public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null)
+		{
+			using (var context =new TContext())
+			{
+                return await (predicate == null ? context.Set<TEntity>().CountAsync() : context.Set<TEntity>().CountAsync(predicate));
+
+            }
+        }
+
 		public void Delete(TEntity entity)
 		{
 			using (var context = new TContext())
